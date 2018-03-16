@@ -36,4 +36,4 @@ RUN ln -s /opt/cms/SITECONF/local-site /opt/cms/SITECONF/local
 RUN mkdir  /opt/cms/SITECON/local/PhEDEx
 ADD storage.xml /opt/cms/SITECONF/local/PhEDEx
 RUN mkdir /opt/cms/SITECONF/local/JobConfig
-ADD site-local-config.xml /opt/cms/SITECONF/local/PhEDEx
+ADD site-local-config.xml /opt/cms/SITECONF/local/JobConfig
