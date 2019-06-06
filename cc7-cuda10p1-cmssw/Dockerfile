@@ -49,7 +49,7 @@ RUN source cmsset_default.sh
 RUN cmsrel CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
 RUN cd CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1/src
 RUN cmsenv
-RUN git cms-init -x cms-patatrack
+RUN git cms-init -y -x cms-patatrack
 RUN git branch CMSSW_10_6_X_Patatrack --track cms-patatrack/CMSSW_10_6_X_Patatrack
 
 # merge vkhristenko branch for ecal reco on gpu
