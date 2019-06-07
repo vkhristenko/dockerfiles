@@ -21,4 +21,4 @@ sudo docker run --runtime=nvidia -u 0 -v /home/cmscuda/:/shared  -it <image id> 
 - `--runtime=nvidia` - specify the runtime
 - `-u 0` - dirty workaround. not seeing (not having permissions for) shared volume by `cmsinst` user that is being used within the container
 - `-v /home/cmscuda:/shared` - shared volume. _needs to be set as_ `/shared`, lazy to modify the config...
-- the rest specify the location of cmssw distribution within the running container and the config to be called
+- the rest specifies the location of cmssw distribution within the running container and the config to be called
