@@ -50,7 +50,7 @@ RUN git config --global user.github cms-sw
 # setup a patatrack release
 WORKDIR /opt/cms
 RUN source /opt/cms/cmsset_default.sh
-RUN cmsrel CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
+RUN scram project CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
 RUN cd /opt/cms/CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1/src
 RUN eval `scramv1 runtime -sh`
 RUN git cms-init -y -x cms-patatrack
