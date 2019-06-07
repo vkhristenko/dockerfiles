@@ -41,6 +41,12 @@ RUN mkdir /opt/cms/SITECONF/local/JobConfig
 ADD site-local-config.xml /opt/cms/SITECONF/local/JobConfig
 ADD setup_release.sh /opt/cms
 
+# launcher to run 
+USER root
+ADD run_release_shared_volume.sh /opt/cms
+RUN chmod 755 /opt/cms/run_release_shared_volume.sh
+USER cmsinst
+
 # configure git
 # git cms-init complains if the user is not random
 RUN git config --global user.name "test"
@@ -54,20 +60,3 @@ RUN git config --global user.github cms-sw
 WORKDIR /opt/cms
 RUN nvidia-smi
 RUN /opt/cms/setup_release.sh /opt/cms CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
-
-
-#RUN /bin/bash -c "source /opt/cms/cmsset_default.sh"
-#RUN source /opt/cms/cmsset_default.sh
-#RUN echo $0
-#RUN echo $PWD
-#RUN eval `scram project CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1`
-#RUN cd /opt/cms/CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1/src
-#RUN eval `scramv1 runtime -sh`
-#RUN git cms-init -y -x cms-patatrack
-#RUN git branch CMSSW_10_6_X_Patatrack --track cms-patatrack/CMSSW_10_6_X_Patatrack
-
-# merge vkhristenko branch for ecal reco on gpu
-#RUN git cms-merge-topic vkhristenko:ecal_dev_patatrack_1
-#RUN scram b -v -j 8 
-
-# ready to run
