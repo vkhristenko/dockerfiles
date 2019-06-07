@@ -1,7 +1,7 @@
 FROM nvidia/cuda:10.1-devel-centos7
 
-# switch to bash
-RUN /bin/bash
+SHELL ["/bin/bash", "-c"]
+RUN echo $0
 
 # install all the rpms
 RUN yum update -y && \
@@ -39,6 +39,7 @@ RUN mkdir  /opt/cms/SITECONF/local/PhEDEx
 ADD storage.xml /opt/cms/SITECONF/local/PhEDEx
 RUN mkdir /opt/cms/SITECONF/local/JobConfig
 ADD site-local-config.xml /opt/cms/SITECONF/local/JobConfig
+ADD setup_release.sh /opt/cms
 
 # configure git
 # git cms-init complains if the user is not random
@@ -47,17 +48,26 @@ RUN git config --global user.email "test@gmail.com"
 RUN git config --global user.github cms-sw
 
 # we are in /opt/cms as cmsinst user
-# setup a patatrack release
+# 1) setup a patatrack release
+# 2) merge the ecal reco branch
+# 3) compile/build
 WORKDIR /opt/cms
-RUN source /opt/cms/cmsset_default.sh
-RUN scram project CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
-RUN cd /opt/cms/CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1/src
-RUN eval `scramv1 runtime -sh`
-RUN git cms-init -y -x cms-patatrack
-RUN git branch CMSSW_10_6_X_Patatrack --track cms-patatrack/CMSSW_10_6_X_Patatrack
+RUN nvidia-smi
+RUN /opt/cms/setup_release.sh /opt/cms CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
+
+
+#RUN /bin/bash -c "source /opt/cms/cmsset_default.sh"
+#RUN source /opt/cms/cmsset_default.sh
+#RUN echo $0
+#RUN echo $PWD
+#RUN eval `scram project CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1`
+#RUN cd /opt/cms/CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1/src
+#RUN eval `scramv1 runtime -sh`
+#RUN git cms-init -y -x cms-patatrack
+#RUN git branch CMSSW_10_6_X_Patatrack --track cms-patatrack/CMSSW_10_6_X_Patatrack
 
 # merge vkhristenko branch for ecal reco on gpu
-RUN git cms-merge-topic vkhristenko:ecal_dev_patatrack_1
-RUN scram b -v -j 8 
+#RUN git cms-merge-topic vkhristenko:ecal_dev_patatrack_1
+#RUN scram b -v -j 8 
 
 # ready to run

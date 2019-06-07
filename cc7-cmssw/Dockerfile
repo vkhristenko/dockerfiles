@@ -24,10 +24,10 @@ RUN wget -O /opt/cms/bootstrap.sh http://cmsrep.cern.ch/cmssw/repos/bootstrap.sh
 RUN chmod 755 /opt/cms/bootstrap.sh
 
 # bootstrap
-RUN /opt/cms/bootstrap.sh -a slc7_amd64_gcc630 -r cms -path /opt/cms setup
+RUN /opt/cms/bootstrap.sh -a slc7_amd64_gcc700 -r cms -path /opt/cms setup
 
 # install the externals + release
-RUN /opt/cms/common/cmspkg -a slc7_amd64_gcc630 -y install cms+cmssw+CMSSW_10_0_0
+RUN /opt/cms/common/cmspkg -a slc7_amd64_gcc700 -y install cms+cmssw+CMSSW_10_0_0
 
 # set up the SITECONF
 RUN mkdir /opt/cms/SITECONF
