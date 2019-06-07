@@ -1,5 +1,8 @@
 FROM nvidia/cuda:10.1-devel-centos7
 
+# switch to bash
+RUN /bin/bash
+
 # install all the rpms
 RUN yum update -y && \
     yum install -y wget sudo vim rsync krb5-workstation e2fsprogs xauth && \
@@ -45,10 +48,11 @@ RUN git config --global user.github cms-sw
 
 # we are in /opt/cms as cmsinst user
 # setup a patatrack release
-RUN source cmsset_default.sh
+WORKDIR /opt/cms
+RUN source /opt/cms/cmsset_default.sh
 RUN cmsrel CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
-RUN cd CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1/src
-RUN cmsenv
+RUN cd /opt/cms/CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1/src
+RUN eval `scramv1 runtime -sh`
 RUN git cms-init -y -x cms-patatrack
 RUN git branch CMSSW_10_6_X_Patatrack --track cms-patatrack/CMSSW_10_6_X_Patatrack
 
