@@ -39,12 +39,14 @@ RUN mkdir  /opt/cms/SITECONF/local/PhEDEx
 ADD storage.xml /opt/cms/SITECONF/local/PhEDEx
 RUN mkdir /opt/cms/SITECONF/local/JobConfig
 ADD site-local-config.xml /opt/cms/SITECONF/local/JobConfig
-ADD setup_release.sh /opt/cms
 
-# launcher to run 
+# setup and launcher scripts to use
+# need to switch to root to setup permissions for files
 USER root
+ADD setup_release.sh /opt/cms
 ADD run_release_shared_volume.sh /opt/cms
 RUN chmod 755 /opt/cms/run_release_shared_volume.sh
+RUN chmod 755 /opt/cms/setup_release.sh
 USER cmsinst
 
 # configure git
