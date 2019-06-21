@@ -28,8 +28,11 @@ RUN chmod 755 /opt/cms/bootstrap.sh
 # bootstrap
 RUN /opt/cms/bootstrap.sh -a slc7_amd64_gcc700 -r cms -path /opt/cms setup
 
-# install the externals + release
-RUN /opt/cms/common/cmspkg -a slc7_amd64_gcc700 -r cms.patatrack install -y cms+cmssw+CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
+#install externals + base release
+RUN /opt/cms/common/cmspkg -a slc7_amd64_gcc700 install -y cms+cmssw+CMSSW_10_6_0
+
+# install externals (should be coming from previous one) + patatrack release
+RUN /opt/cms/common/cmspkg -a slc7_amd64_gcc700 -r cms.patatrack install -y cms+cmssw+CMSSW_10_6_0_Patatrack
 
 # set up the SITECONF
 RUN mkdir /opt/cms/SITECONF
@@ -43,10 +46,12 @@ ADD site-local-config.xml /opt/cms/SITECONF/local/JobConfig
 # setup and launcher scripts to use
 # need to switch to root to setup permissions for files
 USER root
-ADD setup_release.sh /opt/cms
+ADD setup_release_data.sh /opt/cms
 ADD run_release_shared_volume.sh /opt/cms
+ADD wget_data.sh /opt/cms
 RUN chmod 755 /opt/cms/run_release_shared_volume.sh
-RUN chmod 755 /opt/cms/setup_release.sh
+RUN chmod 755 /opt/cms/setup_release_data.sh
+RUN chmod 755 /opt/cms/wget_data.sh
 USER cmsinst
 
 # configure git
@@ -56,9 +61,13 @@ RUN git config --global user.email "test@gmail.com"
 RUN git config --global user.github cms-sw
 
 # we are in /opt/cms as cmsinst user
+# 0) add a cmssw config to use to /opt/cms
 # 1) setup a patatrack release
 # 2) merge the ecal reco branch
 # 3) compile/build
+# 4) wget data
+ADD ecalOnly.py /opt/cms
 WORKDIR /opt/cms
 RUN nvidia-smi
-RUN /opt/cms/setup_release.sh /opt/cms CMSSW_10_6_0_pre2_Patatrack_CUDA_10_1
+RUN /opt/cms/setup_release_data.sh /opt/cms CMSSW_10_6_0_Patatrack
+RUN /opt/cms/wget_data.sh /opt/cms
