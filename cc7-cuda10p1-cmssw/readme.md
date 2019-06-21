@@ -1,4 +1,4 @@
-# Running Patatrack CMSSW release with Ecal Reco on Nvidia GPU inside the Docker Container
+# Running Patatrack CMSSW release with Ecal Reco on Nvidia GPU inside the Docker Container using CMS Open Data
 
 ## Assumptions for the host
 - assume Nvidia Drivers + CUDA Toolkit installation
@@ -20,3 +20,4 @@ sudo docker run --runtime=nvidia -it <image name> /opt/cms/run_release_shared_vo
 ```
 - `--runtime=nvidia` - specify the runtime
 - the rest specifies the location of cmssw distribution within the running container and the config to be called
+- data is wget-ted at image build time. Number of events at this point is preset to 100, can all be configured at runtime if needed...
