@@ -2,7 +2,7 @@
 
 ## Assumptions for the host
 - assume Nvidia Drivers + CUDA Toolkit installation
-- assume docker + nvidia docker-ce 2
+- assume docker + nvidia docker-ce 2. Some info on how to bring all of that is [here](../gpudev_install_readme.md)
 - to run on a machine, default runtime does not need to be `nvidia`, only to build images
 - assume we can get data/conditions over htpp
 
