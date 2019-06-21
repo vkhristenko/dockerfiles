@@ -4,6 +4,7 @@
 - assume Nvidia Drivers + CUDA Toolkit installation
 - assume docker + nvidia docker-ce 2
 - to run on a machine, default runtime does not need to be `nvidia`, only to build images
+- assume we can get data/conditions over htpp
 
 ## Build an image
 - To build, the default the docker runtime must be set to `nvidia`
