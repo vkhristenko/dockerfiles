@@ -15,8 +15,7 @@ sudo docker build -t <image name> .
 
 ## To run 
 ```
-sudo docker run --runtime=nvidia -u 0 -it <image name> /opt/cms/run_release_shared_volume.sh /opt/cms CMSSW_10_6_0_Patatrack /opt/cms/ecalOnly.py
+sudo docker run --runtime=nvidia -it <image name> /opt/cms/run_release_shared_volume.sh /opt/cms CMSSW_10_6_0_Patatrack /opt/cms/ecalOnly.py
 ```
 - `--runtime=nvidia` - specify the runtime
-- `-u 0` - dirty workaround. not seeing (not having permissions for) shared volume by `cmsinst` user that is being used within the container
 - the rest specifies the location of cmssw distribution within the running container and the config to be called
